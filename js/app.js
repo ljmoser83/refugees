@@ -6,11 +6,11 @@
     // create the Leaflet map using mapbox.light tiles
     var map = L.mapbox.map('map', 'mapbox.light', {
         zoomSnap: .1,
-        center: [-.23, 37.8],
-        zoom: 7,
-        minZoom: 6,
+        center: [45, -106],
+        zoom: 4,
+        minZoom: 4,
         maxZoom: 9,
-        maxBounds: L.latLngBounds([-6.22, 27.72], [5.76, 47.83])
+        //maxBounds: L.latLngBounds([-6.22, 27.72], [5.76, 47.83])
     });
 
     // create Leaflet control for the slider
@@ -35,19 +35,19 @@
 
     // add the control to the map
     sliderControl.addTo(map);
-    var gradeDisplay = L.control({
+    var yearDisplay = L.control({
         position: 'bottomleft'
     });
 
     // when added to the map
-    gradeDisplay.onAdd = function (map) {
+    yearDisplay.onAdd = function (map) {
 
-        // select the element with id of 'grade'
-        var grade = L.DomUtil.get("grade");
-        return grade;
+        // select the element with id of 'year'
+        var year = L.DomUtil.get("year");
+        return year;
     }
 
-    gradeDisplay.addTo(map);
+    yearDisplay.addTo(map);
 
     // load CSV data
     omnivore.csv('data/kenya_education_2014.csv')
@@ -69,14 +69,14 @@
         }
     }
 
-    function drawMap(data) {
+    function drawMap() {
         //creates a seperate layer for girls and boys
-        var girlsLayer = L.geoJson(data, options).addTo(map);
-        var boysLayer = L.geoJson(data, options).addTo(map);
-        //creates a var named currentGrade to set initial value of grade identifier div upon webpage load
-        var currentGrade = 1
+        //var girlsLayer = L.geoJson(data, options).addTo(map);
+        //var boysLayer = L.geoJson(data, options).addTo(map);
+        //creates a var named currentYear to set initial value of year identifier div upon webpage load
+        var currentYear = 2016
             //JQuery method to update html of selected div
-        $('#grade').html("Grade:" + " " + currentGrade);
+        $('#year').html("Year:" + " " + currentYear);
         //defines the color of the girls layer
         girlsLayer.setStyle({
             color: '#D96D02',
@@ -88,7 +88,7 @@
         //call to the function resizeCircle passing girlsLayer, boysLayer, and 1 as arguments, which calculates the proportional size of the circles on the map//
         resizeCircles(girlsLayer, boysLayer, 1);
         //call to retrieveInfo function that is used to build info window
-        retrieveInfo(boysLayer, currentGrade);
+        retrieveInfo(boysLayer, currentYear);
         //call to sequenceUI function that established slider interaction
         sequenceUI(girlsLayer, boysLayer);
         //sets the extent of the map to the extent of the girlsLayer
@@ -100,24 +100,24 @@
         return radius * 0.5
     }
     //a function that resizes the circle markers on the map
-    function resizeCircles(girlsLayer, boysLayer, currentGrade) {
+    function resizeCircles(girlsLayer, boysLayer, currentYear) {
         girlsLayer.eachLayer(function (layer) {
-            var radius = calcRadius(Number(layer.feature.properties['G' + currentGrade]));
+            var radius = calcRadius(Number(layer.feature.properties['G' + currentYear]));
             layer.setRadius(radius);
         });
         boysLayer.eachLayer(function (layer) {
-            var radius = calcRadius(Number(layer.feature.properties['B' + currentGrade]));
+            var radius = calcRadius(Number(layer.feature.properties['B' + currentYear]));
             layer.setRadius(radius);
         });
 
     }
-    //adds an event listener that updates the value of currentGrade each time the user interacts with the slider. This function also uses a JQuery method to update the content of the grade label div.//
-    function sequenceUI(girlsLayer, boysLayer) {
+    //adds an event listener that updates the value of currentYear each time the user interacts with the slider. This function also uses a JQuery method to update the content of the year label div.//
+    function sequenceUI() {
         $('.slider').on('input change', function () {
-            var currentGrade = $(this).val();
-            $('#grade').html("Grade:" + " " + currentGrade);
-            resizeCircles(girlsLayer, boysLayer, currentGrade);
-            retrieveInfo(boysLayer, currentGrade);
+            var currentYear = $(this).val();
+            $('#year').html("Year:" + " " + currentYear);
+            resizeCircles(girlsLayer, boysLayer, currentYear);
+            retrieveInfo(boysLayer, currentYear);
         });
 
     }
@@ -147,12 +147,12 @@
             
             //Create an empty array named dataValues.
         var dataValues = [];
-        //Use the map method to iterate through the data.features.school.properties.grade enumerable enrollment values and push all numeric values to the array to sort for maximum of the enrollment rates.//
+        //Use the map method to iterate through the data.features.school.properties.year enumerable enrollment values and push all numeric values to the array to sort for maximum of the enrollment rates.//
         data.features.map(function (school) {
 
-            for (var grade in school.properties) {
+            for (var year in school.properties) {
 
-                var attribute = school.properties[grade];
+                var attribute = school.properties[year];
                 //if statement restricts values pushed to array to only numeric values.
                 if (Number(attribute)) {
 
@@ -212,7 +212,7 @@
 
     }
     //function to dynamically build info window
-    function retrieveInfo(boysLayer, currentGrade) {
+    function retrieveInfo(boysLayer, currentYear) {
         //shortcut to JQuery selection of the div with id=info
         var info = $('#info');
         //binds the mouseover to the boysLayer that displays and populates info window
@@ -224,10 +224,10 @@
             //multiple JQuery calls to dynamically update the html of several divs in the info window
             $('#info span').html(props.COUNTY);
             //console.log(props.COUNTY);
-            $(".girls span:first-child").html('(Grade ' + currentGrade + ')');
-            $(".boys span:first-child").html('(Grade ' + currentGrade + ')');
-            $(".girls span:last-child").html(props['G' + currentGrade]);
-            $(".boys span:last-child").html(props['B' + currentGrade]);
+            $(".girls span:first-child").html('(Year ' + currentYear + ')');
+            $(".boys span:first-child").html('(Year ' + currentYear + ')');
+            $(".girls span:last-child").html(props['G' + currentYear]);
+            $(".boys span:last-child").html(props['B' + currentYear]);
 
             // raise opacity level as visual affordance
             e.layer.setStyle({
