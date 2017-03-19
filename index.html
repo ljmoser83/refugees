@@ -3,7 +3,7 @@
 
 <head>
     <meta charset=utf-8 />
-    <title>US Refugees 2002-2016</title>
+    <title>US Refugees 2008-2016</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <!--links to additional style and font resources -->
     <link href="https://api.mapbox.com/mapbox-assembly/v0.12.0/assembly.min.css" rel="stylesheet">
@@ -19,7 +19,7 @@
     <div class='grid'>
         <div class='col col--12 col--3-ml p12 pb6 viewport-third viewport-full-ml'>
             <div class='h-full scroll-auto'>
-                <div class='txt-h3 mb24 align-center mt24 txt-bold'>New Additions to the Melting Pot:<br/>State Refugee Totals by Nationality<br/>2002-2016</div>
+                <div class='txt-h3 mb24 align-center mt24 txt-bold'>New Additions to the Melting Pot:<br/>State Refugee Totals by Nationality<br/>2008-2016</div>
                 <img src='images/welcome.jpg' alt="insert image here" class='ml18 mb24'>
                 <p class="text-justify txt-m mb24" >This interactive choropleth map shows the total number of refugees each state receives by year. This map was developed in response to the impending travel ban in the United States. Use this map to explore the current refugee controversy and better understand the diversity and value that refugees add to our country. The specific countries that are subject to potential bans are some of the countries in the world with the greatest number of people seeking refuge. By implementing a wholesale block on these countries, we may be simply ignoring folks that need help the most.</p>
                 <div class='txt-l mt18 mb12'>Interpreting the Map</div>
@@ -47,7 +47,7 @@
 
             <!-- legend -->
             <div id='legend' class='bg-white round-ml p18'>
-                <h3 class='mb12 w-full mx-auto txt-m txt-bold'>Number of students</h3>
+                <h3 class='mb12 w-full mx-auto txt-m txt-bold'>Refugees by State</h3>
                 <div class='legend-circles relative w180 wmax180'>
                     <div class="legend-large border border--gray-light absolute"></div>
                     <div class="legend-small border border--gray-light absolute"></div>
@@ -61,12 +61,11 @@
     <!--info window -->
     <div id='info' class='py6 px12 bg-white border border--gray-light round absolute wmax200 color-gray-dark none'>
         <p>County: <span></span></p>
-        <p class='girls'>Girls <span></span>: <span class='txt-l txt-bold'></span></p>
-        <p class='boys'>Boys <span></span>: <span class='txt-l txt-bold'></span></p>
+        <p class='total'>Total by Year<span></span>: <span class='txt-l txt-bold'></span></p>
         <hr class='txt-hr'>
-        <p class='my6'>Trend: 2002 &ndash; 2016</p>
-        <p class='mb6'><span class='girlspark'></span></p>
-        <p><span class='boyspark'></span></p>
+        <p class='my6'>Trend: 2008 &ndash; 2016</p>
+        <p class='mb6'><span class='totalspark'></span></p>
+        
     </div>
     <!--additional script resource links -->
     <script async defer src="https://api.mapbox.com/mapbox-assembly/v0.12.0/assembly.js"></script>
