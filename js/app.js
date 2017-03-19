@@ -14,6 +14,27 @@
 
     //AJAX request to retrieve data file from server hosted JSON
     $.getJSON("data/refugees_2008_2016_4326.json", function (data) {
+
+        // loop through GeoJSON features
+        data.features.forEach(function(state){
+
+            // shortcut for props
+            var props = state.properties;
+            // for each property
+            for(var prop in props){
+                // if the value is 0
+                if(props[prop]== 0) {
+                     // remove the property from the data
+                     delete props[prop];
+                }
+            }
+        });
+
+        // verify
+        console.log(data);
+
+
+
         var dataLayer = L.geoJson(data, {
             style: function (feature) {
                 return {
@@ -52,7 +73,7 @@
     // add the control to the map
     sliderControl.addTo(map);
 
-    // create Leaflet control for the ban country selector 
+    // create Leaflet control for the ban country selector
     var banSelect = L.control({
         position: 'topright'
     });
@@ -106,7 +127,7 @@
         //call to sequenceUI function that established slider interaction
         sequenceUI(dataLayer);
     }
-    //function that will update data by year and state and update symbology upon user interaction  
+    //function that will update data by year and state and update symbology upon user interaction
     function updateMap(data) {}
 
     //function that will style the choropleth
