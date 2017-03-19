@@ -11,7 +11,7 @@
     <link href='css/styles.css' rel='stylesheet' />
     <link href='https://fonts.googleapis.com/css?family=Work+Sans:400,500,600' rel='stylesheet' type='text/css'>
     <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 
 <body class="prose prose--dark bg-gray">
@@ -19,9 +19,11 @@
     <div class='grid'>
         <div class='col col--12 col--3-ml p12 pb6 viewport-third viewport-full-ml'>
             <div class='h-full scroll-auto'>
-                <div class='txt-h3 mb24 align-center mt24 txt-bold'>New Additions to the Melting Pot:<br/>State Refugee Totals by Nationality<br/>2008-2016</div>
+                <div class='txt-h3 mb24 align-center mt24 txt-bold'>New Additions to the Melting Pot:
+                    <br/>State Refugee Totals by Nationality
+                    <br/>2008-2016</div>
                 <img src='images/welcome.jpg' alt="insert image here" class='ml18 mb24'>
-                <p class="text-justify txt-m mb24" >This interactive choropleth map shows the total number of refugees each state receives by year. This map was developed in response to the impending travel ban in the United States. Use this map to explore the current refugee controversy and better understand the diversity and value that refugees add to our country. The specific countries that are subject to potential bans are some of the countries in the world with the greatest number of people seeking refuge. By implementing a wholesale block on these countries, we may be simply ignoring folks that need help the most.</p>
+                <p class="text-justify txt-m mb24">This interactive choropleth map shows the total number of refugees each state receives by year. This map was developed in response to the impending travel ban in the United States. Use this map to explore the current refugee controversy and better understand the diversity and value that refugees add to our country. The specific countries that are subject to potential bans are some of the countries in the world with the greatest number of people seeking refuge. By implementing a wholesale block on these countries, we may be simply ignoring folks that need help the most.</p>
                 <div class='txt-l mt18 mb12'>Interpreting the Map</div>
                 <p class="text-justify txt-m mb120">The states are symbolized with color coded jenks natural breaks clustering method. Color coded groups show the magnitude of refugees each state receives on a yearly basis. Consult the legend as a guide to this symbology. You can also click on each state to retrieve a pop-up window showing the number of refugees by nationality for a given state of interest. The included graph shows the trend of total refugees received by state across the time frame.</p>
                 <footer class='mt12 "prose prose--dark bg-gray" txt-s'>
@@ -32,7 +34,7 @@
 
                 </footer>
             </div>
-            
+
         </div>
         <div class='col col--12 col--9-ml h180 h-full-ml'>
             <div id="map" class='viewport-twothirds viewport-full-ml'></div>
@@ -41,8 +43,23 @@
             <div id='year' class='range w56 bg-white round-ml p12 txt-m txt-bold'>2016</div>
 
             <!-- ui slider -->
-            <div id='slider' class='range w240 bg-white round-ml p12'>
-                <input type='range' min="2002" , max="2016" , value="2016" , step="1" class="slider" />
+            <div id='slider' class='range--blue w240 bg-white round-ml p12'>
+                <input type='range' min="2008" , max="2016" , value="2016" , step="1" class="slider" />
+            </div>
+
+
+            <div class='select-container ban' id='ban'>
+                <label class="color-gray-dark bg-gray-faint fl" >Choose a travel ban country:</label>
+                <select class='select ml12' name="ban" id='ban'>
+                    <option value='#' selected>All Refugees</option>
+                    <option value='#'>Syria</option>
+                    <option value='#'>Iran</option>
+                    <option value='#'>Yemen</option>
+                    <option value='#'>Sudan</option>
+                    <option value='#'>Libya</option>
+                    <option value='#'>Somalia</option>
+                </select>
+                <div class='select-arrow'></div>
             </div>
 
             <!-- legend -->
@@ -65,14 +82,14 @@
         <hr class='txt-hr'>
         <p class='my6'>Trend: 2008 &ndash; 2016</p>
         <p class='mb6'><span class='totalspark'></span></p>
-        
+
     </div>
     <!--additional script resource links -->
     <script async defer src="https://api.mapbox.com/mapbox-assembly/v0.12.0/assembly.js"></script>
     <script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
-    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
     <script src='https://code.jquery.com/jquery-3.1.1.min.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js"></script>
+    <script src="https://unpkg.com/simple-statistics@2.2.0/dist/simple-statistics.min.js"></script>
     <script src='js/app.js'></script>
 
 </body>
