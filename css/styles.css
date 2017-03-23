@@ -45,3 +45,12 @@ a {
             display: block;
             clear: both;
         }
+img {
+    max-width: 90%;
+    max-height: 90%;
+}
+
+p {
+    text-align: justify;
+    text-justify: inter-word;
+}
