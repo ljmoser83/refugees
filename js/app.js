@@ -241,9 +241,9 @@
 
         legendControl.onAdd = function (map) {
 
-            var div = L.DomUtil.create('div', 'legend');
+            var legend = L.DomUtil.get('legend');
 
-            return div;
+            return legend;
 
         };
 
