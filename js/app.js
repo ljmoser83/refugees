@@ -269,7 +269,7 @@
                 }
 
             }
-            
+
         });
         console.log(dataValues)
         // sort our array

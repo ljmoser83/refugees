@@ -3,7 +3,7 @@
 /*applies Work Sans font to the body, with a backup of sans-serif*/
 body {
     font-family: "Work Sans", sans-serif;
-    
+
 }
 
 /*modifies the text color of anchor elements within the DOM*/
@@ -11,11 +11,11 @@ body {
 a {
     color: '#214C8C';
 }
-    
+
 img {
-    max-width: 100%;
+    /*max-width: 100%;
     max-height: 100%;
-    margin:auto;
+    margin:auto;*/
 }
 
 p {
