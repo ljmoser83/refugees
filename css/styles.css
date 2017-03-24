@@ -48,3 +48,8 @@ hr.large {
     margin-top: 8px;
     /* overwrite assembly.css rule */
 }
+
+#dir{
+    border-radius: 10px;
+    padding: 3px;
+}

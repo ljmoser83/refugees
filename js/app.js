@@ -93,7 +93,7 @@
 
     // create Leaflet control for the ban country selector
     var banSelect = L.control({
-        position: 'topright'
+        position: 'topleft'
     });
 
     // when added to the map
@@ -145,6 +145,7 @@
     function drawMap(data) {
         var dataLayer = L.geoJson(data, options).addTo(map);
         console.log(dataLayer);
+        map.zoomControl.setPosition('topright');
         //creates a var named currentYear to set initial value of year identifier div upon webpage load
         var currentYear = 2016
 

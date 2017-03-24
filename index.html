@@ -22,9 +22,9 @@
                     <br/>State Refugee Totals
                     <br/>2008-2016</h3>
                 <img src='images/welcome.jpg' alt="insert image here" class='mb24'>
-                <p class="txt-s mb24">This interactive choropleth map shows the total number of refugees each state receives by year. This map was developed in response to the impending travel ban in the United States. Use this map to explore the current refugee controversy and better understand the diversity and value that refugees add to our country. The specific countries that are subject to potential bans are some of the countries in the world with the greatest number of people seeking refuge. By implementing a wholesale block on these countries, we may be simply ignoring folks that need help the most.</p>
+                <p class="txt-s mb24">This interactive proportional symbol map shows the total number of refugees each state receives by year. This map was developed in response to the impending travel ban in the United States. Use this map to explore the current refugee controversy and better understand the diversity and value that refugees add to our country. The specific countries that are subject to potential bans are some of the countries in the world with the greatest number of people seeking refuge. By implementing a wholesale block on these countries, we may be simply ignoring folks that need help the most.</p>
                 <div class='txt-m mt18 mb12'>Interpreting the Map</div>
-                <p class="txt-s mb48">The states are symbolized with color coded jenks natural breaks clustering method. Color coded groups show the magnitude of refugees each state receives on a yearly basis. Consult the legend as a guide to this symbology. You can also click on each state to retrieve a pop-up window showing the number of refugees by nationality for a given state of interest. The included graph shows the trend of total refugees received by state across the time frame.</p>
+                <p class="txt-s mb48">The states are symbols are proportionally sized based on the total number of refugees they take in each year. Consult the legend as a guide to this symbology. You can also click on each state to retrieve a pop-up window showing the number of refugees for a given state of interest. The included graph shows the trend of total refugees received by state across the time frame.</p>
                 <footer class='mt12 prose prose--dark bg-gray txt-s'>
                     <ul>
                         <li>Explore the raw <a class='link' href='http://ireports.wrapsnet.org/Interactive-Reporting/EnumType/Report?ItemPath=/rpt_WebArrivalsReports/MX%20-%20Arrivals%20by%20Destination%20and%20Nationality'>data</a></li>
@@ -42,14 +42,14 @@
             <div id='year' class='range w56 bg-white round-ml p12 txt-m txt-bold'></div>
 
             <!-- ui slider -->
-            <div id='slider' class='range--blue w240 bg-white round-ml p12'>
+            <div id='slider' class='range--blue w160 bg-white round-ml p12'>
                 <input type='range' min="2008" , max="2016" , value="2016" , step="1" class="slider" />
             </div>
 
 
             <div class='select-container ban' id='ban'>
-                <label class="color-gray-dark bg-gray-faint fl" >Choose a travel ban country:</label>
-                <select class='select ml12' name="ban" id='ban'>
+                <label class="color-gray-dark bg-gray-faint fl txt-bold" id="dir">Choose a travel ban country:</label>
+                <select class='select ml12' name='ban' id='ban'>
                     <option value='all' selected>All Refugees</option>
                     <option value='Syria_'>Syria</option>
                     <option value='Iran_'>Iran</option>
@@ -63,7 +63,7 @@
 
             <!-- legend -->
      <div id='legend' class='legend bg-white round-ml p18'>
-                <h3 class='mb12 w-full mx-auto txt-m txt-bold'>Refugees by State</h3>
+                <h3 class='mb12 w-full mx-auto txt-m txt-bold '>Refugees by State</h3>
                 <div class='legend-circles relative w180 wmax180'>
                     <div class="legend-large border border--gray-light absolute"></div>
                     <div class="legend-small border border--gray-light absolute"></div>
