@@ -144,7 +144,7 @@
     function drawMap(data) {
         var dataLayer = L.geoJson(data, options).addTo(map);
         console.log(dataLayer);
-        drawLegend();
+        //drawLegend();
         //creates a var named currentYear to set initial value of year identifier div upon webpage load
         var currentYear = 2016
 
