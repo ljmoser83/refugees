@@ -1,10 +1,10 @@
 (function () {
 
     // mapbox access token for ljmoser83 account
-    L.mapbox.accessToken = 'pk.eyJ1IjoibGptb3NlcjgzIiwiYSI6ImNpemNyNzhjODFuOXoycHFvbTU3Y25qMnIifQ.AT3F-314hvPwaNr4WxIgDw';
+    L.mapbox.accessToken = 'pk.eyJ1IjoibGptb3NlcjgzIiwiYSI6ImNqMG5sNmI1bjAwY3UzM3Q4cXNncGl6NDMifQ.jAX66dC8oy8Mh4IvgF5SPg';
 
     // create the Leaflet map using mapbox.light tiles
-    var map = L.mapbox.map('map', 'mapbox.light', {
+    var map = L.mapbox.map('map', 'mapbox.dark', {
         zoomSnap: .1,
         center: [45, -106],
         zoom: 4,
