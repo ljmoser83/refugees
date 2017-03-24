@@ -52,6 +52,7 @@
 
         // verify
         console.log(data);
+        drawLegend(data);
         //drawInfo();
         //calls drawInfo(), which creates a blank info panel with defined styles and no information present until mouseover
         drawMap(data);
@@ -144,7 +145,6 @@
     function drawMap(data) {
         var dataLayer = L.geoJson(data, options).addTo(map);
         console.log(dataLayer);
-        //drawLegend();
         //creates a var named currentYear to set initial value of year identifier div upon webpage load
         var currentYear = 2016
 
@@ -233,21 +233,94 @@
     //        $(".info").hide();
     //    }
 
-    function drawLegend() {
-
-        var legendControl = L.control({
+    function drawLegend(data) {
+        // create Leaflet control for the legend
+        var legend = L.control({
             position: 'bottomright'
         });
+        // when added to the map
+        legend.onAdd = function (map) {
 
-        legendControl.onAdd = function (map) {
+                // select the element with id of 'legend'
+                var div = L.DomUtil.get("legend");
 
-            var legend = L.DomUtil.get('legend');
+                // disable the mouse events
+                L.DomEvent.disableScrollPropagation(div);
+                L.DomEvent.disableClickPropagation(div);
 
-            return legend;
+                // add legend to the control
+                return div;
 
-        };
+            }
+            // add the control to the map
+            //Create an empty array named dataValues.
+        var dataValues = [];
+        //Use the map method to iterate through the data.features.school.properties.grade enumerable enrollment values and push all numeric values to the array to sort for maximum of the enrollment rates.//
+        console.log(data);
+        data.features.map(function (state) {
 
-        legendControl.addTo(map);
-    } //a function that simply draws teh container that will be the legend. this is fired in drawMap(), because it only needs to be fired once. The information within is dynamically updated by updateLegend(breaks) function within the updateMap(dataLayer) function
+            for (var total in state.properties) {
+
+                var attribute = state.properties[total];
+                //if statement restricts values pushed to array to only numeric values.
+                if (Number(attribute)) {
+
+                    dataValues.push(attribute);
+                }
+
+            }
+            
+        });
+        console.log(dataValues)
+        // sort our array
+        var sortedValues = dataValues.sort(function (a, b) {
+            return b - a;
+        });
+
+        // round the highest number and use as our large circle diameter
+        var maxValue = Math.round(sortedValues[0] / 1000) * 1000;
+console.log(maxValue)
+        // calc the diameters
+        var largeDiameter = calcRadius(maxValue)*2.5,
+            smallDiameter = largeDiameter / 2;
+
+        // select our circles container and set the height
+        $(".legend-circles").css('height', largeDiameter.toFixed());
+
+        // set width and height for large circle
+        $('.legend-large').css({
+            'width': largeDiameter.toFixed(),
+            'height': largeDiameter.toFixed()
+        });
+        // set width and height for small circle and position
+        $('.legend-small').css({
+            'width': smallDiameter.toFixed(),
+            'height': smallDiameter.toFixed(),
+            'top': largeDiameter - smallDiameter,
+            'left': smallDiameter / 2
+        })
+
+        // label the max and median value
+        $(".legend-large-label").html(maxValue);
+        $(".legend-small-label").html((maxValue / 2));
+
+        // adjust the position of the large based on size of circle
+        $(".legend-large-label").css({
+            'top': -11,
+            'left': largeDiameter
+        });
+
+        // adjust the position of the large based on size of circle
+        $(".legend-small-label").css({
+            'top': smallDiameter - 11,
+            'left': largeDiameter
+        });
+
+        // insert a couple hr elements and use to connect value label to top of each circle
+        $("<hr class='large'>").insertBefore(".legend-large-label").css('top', 0-10).css('left', largeDiameter/2);
+        $("<hr class='small'>").insertBefore(".legend-small-label").css('top', largeDiameter - smallDiameter - 10).css('left', largeDiameter/2);
+
+        legend.addTo(map);
+    }
 
 })();
