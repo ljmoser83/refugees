@@ -50,11 +50,8 @@
             }
         });
 
-        // verify
-        console.log(data);
         drawLegend(data);
         //drawInfo();
-        //calls drawInfo(), which creates a blank info panel with defined styles and no information present until mouseover
         drawMap(data);
     })
     var options = {
@@ -144,7 +141,6 @@
     //function that dynamically styles the map initially
     function drawMap(data) {
         var dataLayer = L.geoJson(data, options).addTo(map);
-        console.log(dataLayer);
         map.zoomControl.setPosition('topright');
         //creates a var named currentYear to set initial value of year identifier div upon webpage load
         var currentYear = 2016
@@ -169,8 +165,7 @@
     }
     //function that will update data by year and state and update symbology upon user interaction
     function updateMap(dataLayer, currentYear) {
-        // get the class breaks for the initial data attribute
-        //var breaks = getClassBreaks(dataLayer, currentYear);
+
         resizeCircles(dataLayer, currentYear);
 
         dataLayer.eachLayer(function (layer) {
@@ -191,7 +186,6 @@
             var currentYear = $(this).val();
             $('#year').html("Year:" + " " + currentYear);
             //retrieveInfo(dataLayer, currentYear);
-            console.log(currentYear);
             updateMap(dataLayer, currentYear)
         });
 
@@ -201,8 +195,8 @@
     function addUi(dataLayer) {
         $('select[name="ban"]').change(function () {
             banSelect = $(this).val();
-            updateMap(dataLayer);
-            retrieveInfo(dataLayer, currentYear);
+            //updateMap(dataLayer);
+            //retrieveInfo(dataLayer, currentYear);
             // a function that listens to the user selection in the dropdown menu and calls updateMap once a new value has been assigned to attributeValue.
         });
     } //end addUi function
@@ -211,7 +205,7 @@
         $('.ban').on('input change', function () {
             var currentYear = $(this).val();
             $('#year').html("Year:" + " " + currentYear);
-            retrieveInfo(dataLayer, currentYear);
+            //retrieveInfo(dataLayer, currentYear);
         });
 
     }
@@ -257,7 +251,7 @@
             //Create an empty array named dataValues.
         var dataValues = [];
         //Use the map method to iterate through the data.features.school.properties.grade enumerable enrollment values and push all numeric values to the array to sort for maximum of the enrollment rates.//
-        console.log(data);
+        
         data.features.map(function (state) {
 
             for (var total in state.properties) {
@@ -272,7 +266,7 @@
             }
 
         });
-        console.log(dataValues)
+        
         // sort our array
         var sortedValues = dataValues.sort(function (a, b) {
             return b - a;
@@ -280,7 +274,7 @@
 
         // round the highest number and use as our large circle diameter
         var maxValue = Math.round(sortedValues[0] / 1000) * 1000;
-console.log(maxValue)
+
         // calc the diameters
         var largeDiameter = calcRadius(maxValue)*2.5,
             smallDiameter = largeDiameter / 2;
