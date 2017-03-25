@@ -53,6 +53,7 @@
         drawLegend(data);
         //drawInfo();
         drawMap(data);
+        
     })
     var options = {
 
@@ -62,6 +63,7 @@
                 opacity: 1,
                 weight: 2,
                 fillOpacity: .5,
+               
             })
         }
     }
@@ -162,12 +164,16 @@
         //retrieveInfo(dataLayer, currentYear);
         //call to sequenceUI function that established slider interaction
         sequenceUI(dataLayer);
+//        resetBan(dataLayer, currentYear)
+        banUI(dataLayer, currentYear);
     }
     //function that will update data by year and state and update symbology upon user interaction
     function updateMap(dataLayer, currentYear) {
 
         resizeCircles(dataLayer, currentYear);
-
+dataLayer.eachLayer(function (layer){
+                
+                    layer.setStyle({color: 'blue'});});
         dataLayer.eachLayer(function (layer) {
             layer.bindPopup('Name: ' + layer.feature.properties.NAME + '<br/>' + "Total Refugees: " + layer.feature.properties['Total_' + currentYear], {
                 maxWidth: 800
@@ -184,33 +190,40 @@
     function sequenceUI(dataLayer) {
         $('.slider').on('input change', function () {
             var currentYear = $(this).val();
+            console.log(currentYear);
             $('#year').html("Year:" + " " + currentYear);
             //retrieveInfo(dataLayer, currentYear);
             updateMap(dataLayer, currentYear)
+            banUI(dataLayer, currentYear)
+            $('.ban').val('all');
         });
 
     }
-
-    //adds an event listener that updates the value of currentYear each time the user interacts with the slider. This function also uses a JQuery method to update the content of the year label div.//
-    function addUi(dataLayer) {
-        $('select[name="ban"]').change(function () {
-            banSelect = $(this).val();
-            //updateMap(dataLayer);
-            //retrieveInfo(dataLayer, currentYear);
-            // a function that listens to the user selection in the dropdown menu and calls updateMap once a new value has been assigned to attributeValue.
-        });
-    } //end addUi function
-
-    function banUI() {
+//function resetBan(dataLayer, currentYear){
+//    $('.ban').on('click', function () { dataLayer.eachLayer(function (layer){
+//                
+//                    layer.setStyle({color: 'blue'});});
+//});
+//}
+    function banUI(dataLayer, currentYear) {
         $('.ban').on('input change', function () {
-            var currentYear = $(this).val();
-            $('#year').html("Year:" + " " + currentYear);
+            var banned = $(this).val();
+
+dataLayer.eachLayer(function (layer, banned, currentYear) {
+            layer.bindPopup('Name: ' + layer.feature.properties.NAME + '<br/>' + "Total Refugees: " + layer.feature.properties['Total_' + currentYear] + '<br/>' + layer.feature.properties[banned+currentYear]), {
+                maxWidth: 800
+            }}).openPopup;
+            dataLayer.eachLayer(function (layer){
+                if (layer.feature.properties[banned+currentYear]>0){
+                    layer.setStyle({color: 'yellow'});
+            }
+            }); 
             //retrieveInfo(dataLayer, currentYear);
         });
 
-    }
+    };
 
-
+    
     //    function drawInfo() {
     //
     //        var info = L.control({
