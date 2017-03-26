@@ -15,45 +15,46 @@
     //AJAX request to retrieve data file from server hosted JSON
     $.getJSON("data/refugees.json", function (data) {
 
-        // loop through GeoJSON features
-        data.features.forEach(function (state) {
-
-            // shortcut for props
-            var props = state.properties;
-            // for each property
-            for (var prop in props) {
-                // if the value is 0
-                //was having trouble with the original push you sent removing 0 values from the total fields for a year for a state. Sure there is a better way to do this.
-                if (props[prop] === props["Total_2008"]) {
-                    continue;
-                } else if (props[prop] === props["Total_2009"]) {
-                    continue;
-                } else if (props[prop] === props["Total_2010"]) {
-                    continue;
-                } else if (props[prop] === props["Total_2011"]) {
-                    continue;
-                } else if (props[prop] === props["Total_2012"]) {
-                    continue;
-                } else if (props[prop] === props["Total_2013"]) {
-                    continue;
-                } else if (props[prop] === props["Total_2014"]) {
-                    continue;
-                } else if (props[prop] === props["Total_2015"]) {
-                    continue;
-                } else if (props[prop] === props["Total_2016"]) {
-                    continue;
-                } else if (props[prop] == 0) {
-                    // remove the property from the data
-                    delete props[prop];
-
-                }
-            }
-        });
+//        // loop through GeoJSON features
+//        data.features.forEach(function (state) {
+//
+//            // shortcut for props
+//            var props = state.properties;
+//            // for each property
+//            for (var prop in props) {
+//                // if the value is 0
+//                //was having trouble with the original push you sent removing 0 values from the total fields for a year for a state. Sure there is a better way to do this.
+//                if (props[prop] === props["Total_2008"]) {
+//                    continue;
+//                } else if (props[prop] === props["Total_2009"]) {
+//                    continue;
+//                } else if (props[prop] === props["Total_2010"]) {
+//                    continue;
+//                } else if (props[prop] === props["Total_2011"]) {
+//                    continue;
+//                } else if (props[prop] === props["Total_2012"]) {
+//                    continue;
+//                } else if (props[prop] === props["Total_2013"]) {
+//                    continue;
+//                } else if (props[prop] === props["Total_2014"]) {
+//                    continue;
+//                } else if (props[prop] === props["Total_2015"]) {
+//                    continue;
+//                } else if (props[prop] === props["Total_2016"]) {
+//                    continue;
+//                } else if (props[prop] == 0) {
+//                    // remove the property from the data
+//                    delete props[prop];
+//
+//                }
+//            }
+//        });
 
         drawLegend(data);
-        //drawInfo();
-        drawMap(data);
         
+        drawMap(data);
+        drawInfo();
+
     })
     var options = {
 
@@ -62,8 +63,8 @@
             return L.circleMarker(ll, {
                 opacity: 1,
                 weight: 2,
-                fillOpacity: .5,
-               
+                fillOpacity: 0,
+
             })
         }
     }
@@ -144,19 +145,53 @@
     function drawMap(data) {
         var dataLayer = L.geoJson(data, options).addTo(map);
         map.zoomControl.setPosition('topright');
+       map.fitBounds(dataLayer.getBounds());
+        map.zoomOut(1);
         //creates a var named currentYear to set initial value of year identifier div upon webpage load
         var currentYear = 2016
 
+        $('.ban').on('mouseover', function () {
+            dataLayer.eachLayer(function (layer) {
+                layer.setStyle({
+                    fillOpacity: 0
+                });
+            });
+        });
         //JQuery method to update html of selected div
         $('#year').html("Year:" + " " + currentYear);
-        //
-        //        dataLayer.on('mouseover', function () {
-        //            $(".info").show();
-        //        });
-        //        dataLayer.on('mouseout', function () {
-        //            $(".info").hide();
-        //        });
+        
+                dataLayer.on('mouseover', function () {
+                    $(".info").show();
+                });
+                dataLayer.on('mouseout', function () {
+                    $(".info").hide();
+                });
+        
+        dataLayer.eachLayer(function (layer) {
+                layer.on('mouseover', function (layer) {
+                    updateInfo(this, currentYear);
+                    //                var selectedLayer = event.layer;
+                    //                var prop = selectedLayer.feature.properties;
+                    //from initial method of creating info panel
+                    this.setStyle({
+                        color: "yellow"
 
+                    }).bringToFront();
+                    updateInfo(this, currentYear);
+
+                   
+                    dataLayer.on("mouseout", function (event) {
+                        //                    var selectedLayer = event.layer;
+                        // from initial solo creation
+                        this.setStyle({
+                            color: 'blue'
+                        });
+                        //creates an event listener that reverts the color of a layer's path stroke to the original value
+                        
+                    });
+                });
+            });
+       
         updateMap(dataLayer, currentYear);
         //a call of the updateMap function that fires everytime the dropdown menu is selected. Within this function call, the legend content is dynamically generated each time the drop down menu is toggled by the user.
 
@@ -164,21 +199,25 @@
         //retrieveInfo(dataLayer, currentYear);
         //call to sequenceUI function that established slider interaction
         sequenceUI(dataLayer);
-//        resetBan(dataLayer, currentYear)
+        //        resetBan(dataLayer, currentYear)
         banUI(dataLayer, currentYear);
     }
     //function that will update data by year and state and update symbology upon user interaction
     function updateMap(dataLayer, currentYear) {
 
         resizeCircles(dataLayer, currentYear);
-dataLayer.eachLayer(function (layer){
-                
-                    layer.setStyle({color: 'blue'});});
         dataLayer.eachLayer(function (layer) {
-            layer.bindPopup('Name: ' + layer.feature.properties.NAME + '<br/>' + "Total Refugees: " + layer.feature.properties['Total_' + currentYear], {
-                maxWidth: 800
-            }).openPopup;
-        })
+
+            layer.setStyle({
+                color: 'blue',
+                fillOpacity: 0
+            });
+        });
+//        dataLayer.eachLayer(function (layer) {
+//            layer.bindPopup('Name: ' + layer.feature.properties.NAME + '<br/>' + "Total Refugees "+currentYear+": " + layer.feature.properties['Total_' + currentYear], {
+//                maxWidth: 800
+//            }).openPopup;
+//        })
 
 
     } //end updateMap function
@@ -190,56 +229,51 @@ dataLayer.eachLayer(function (layer){
     function sequenceUI(dataLayer) {
         $('.slider').on('input change', function () {
             var currentYear = $(this).val();
-            console.log(currentYear);
+            map.closePopup();
             $('#year').html("Year:" + " " + currentYear);
             //retrieveInfo(dataLayer, currentYear);
             updateMap(dataLayer, currentYear)
-            banUI(dataLayer, currentYear)
             $('.ban').val('all');
         });
 
     }
-//function resetBan(dataLayer, currentYear){
-//    $('.ban').on('click', function () { dataLayer.eachLayer(function (layer){
-//                
-//                    layer.setStyle({color: 'blue'});});
-//});
-//}
+
     function banUI(dataLayer, currentYear) {
-        $('.ban').on('input change', function () {
+        $('.ban').on('input', function () {
             var banned = $(this).val();
+            map.closePopup();
 
-dataLayer.eachLayer(function (layer, banned, currentYear) {
-            layer.bindPopup('Name: ' + layer.feature.properties.NAME + '<br/>' + "Total Refugees: " + layer.feature.properties['Total_' + currentYear] + '<br/>' + layer.feature.properties[banned+currentYear]), {
-                maxWidth: 800
-            }}).openPopup;
-            dataLayer.eachLayer(function (layer){
-                if (layer.feature.properties[banned+currentYear]>0){
-                    layer.setStyle({color: 'yellow'});
-            }
-            }); 
-            //retrieveInfo(dataLayer, currentYear);
+            console.log(banned + currentYear.toString());
+            dataLayer.eachLayer(function (layer) {
+                if (layer.feature.properties[banned + currentYear] > 0) {
+                    layer.setStyle({
+                        fillOpacity: 0.25
+                    });
+                }
+            });
+            //retrieveInfo(dataLayer, banned, currentYear);
+            
+
         });
+    }
 
-    };
-
+        function drawInfo() {
     
-    //    function drawInfo() {
-    //
-    //        var info = L.control({
-    //            position: 'topright'
-    //        });
-    //
-    //        info.onAdd = function (map) {
-    //
-    //            var div = L.DomUtil.create('div', 'info');
-    //
-    //            return div;
-    //
-    //        }
-    //        info.addTo(map);
-    //        $(".info").hide();
-    //    }
+            var info = L.control({
+                position: 'topright'
+            });
+    
+            info.onAdd = function (map) {
+    
+                var div = L.DomUtil.create('div', 'info');
+    
+                return div;
+    
+            }
+            
+            info.addTo(map);
+            $(".info").hide();
+        }
 
     function drawLegend(data) {
         // create Leaflet control for the legend
@@ -264,7 +298,7 @@ dataLayer.eachLayer(function (layer, banned, currentYear) {
             //Create an empty array named dataValues.
         var dataValues = [];
         //Use the map method to iterate through the data.features.school.properties.grade enumerable enrollment values and push all numeric values to the array to sort for maximum of the enrollment rates.//
-        
+
         data.features.map(function (state) {
 
             for (var total in state.properties) {
@@ -279,7 +313,7 @@ dataLayer.eachLayer(function (layer, banned, currentYear) {
             }
 
         });
-        
+
         // sort our array
         var sortedValues = dataValues.sort(function (a, b) {
             return b - a;
@@ -289,7 +323,7 @@ dataLayer.eachLayer(function (layer, banned, currentYear) {
         var maxValue = Math.round(sortedValues[0] / 1000) * 1000;
 
         // calc the diameters
-        var largeDiameter = calcRadius(maxValue)*2.5,
+        var largeDiameter = calcRadius(maxValue) * 2.5,
             smallDiameter = largeDiameter / 2;
 
         // select our circles container and set the height
@@ -325,10 +359,26 @@ dataLayer.eachLayer(function (layer, banned, currentYear) {
         });
 
         // insert a couple hr elements and use to connect value label to top of each circle
-        $("<hr class='large'>").insertBefore(".legend-large-label").css('top', 0-10).css('left', largeDiameter/2);
-        $("<hr class='small'>").insertBefore(".legend-small-label").css('top', largeDiameter - smallDiameter - 10).css('left', largeDiameter/2);
+        $("<hr class='large'>").insertBefore(".legend-large-label").css('top', 0 - 10).css('left', largeDiameter / 2);
+        $("<hr class='small'>").insertBefore(".legend-small-label").css('top', largeDiameter - smallDiameter - 10).css('left', largeDiameter / 2);
 
         legend.addTo(map);
     }
+    function updateInfo(layer, currentYear) {
+
+            var props = layer.feature.properties;
+
+            var html = "<h3>" + props['NAME'] + "</h3>" +
+                "Syrian Refugees "+currentYear+ ": <b>" + props["Syria_"+currentYear] + "</b><br>" +
+                "Iranian Refugees "+currentYear+ ": <b>" + props["Iran_"+currentYear] + "</b><br>" +
+                "Yemeni Refugees "+currentYear+ ": <b>" + props["Yemen_"+currentYear] + "</b><br>" +
+                "Sudanese Refugees "+currentYear+ ": <b>" + props["Sudan_"+currentYear] + "</b><br>" +
+                "Libyan Refugees "+currentYear+ ": <b>" + props["Libya_"+currentYear] + "</b><br>" +
+                "Somalian Refugees "+currentYear+ ": <b>" + props["Somalia_"+currentYear] + "</b><br>" +
+                "Total Refugees: <b>" + props["Total_"+currentYear] + "</b>"
+
+            $(".info").html(html);
+        }
+        //this function calculates the info pane content and adds it to the panel upon mouseover of each county
 
 })();
