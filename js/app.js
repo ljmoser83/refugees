@@ -6,7 +6,7 @@
     // create the Leaflet map using mapbox.dark tiles. sets zoom levels to appropriate levels for the extent of dataLayer
     var map = L.mapbox.map('map', 'mapbox.dark', {
         zoomSnap: .1,
-        center: [30.9574, -90.3694],
+        center: [34.9574, -94.3694],
         zoom: 6,
         minZoom: 4,
         maxZoom: 9,
