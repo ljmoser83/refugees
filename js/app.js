@@ -6,8 +6,8 @@
     // create the Leaflet map using mapbox.dark tiles. sets zoom levels to appropriate levels for the extent of dataLayer
     var map = L.mapbox.map('map', 'mapbox.dark', {
         zoomSnap: .1,
-        center: [45, -106],
-        zoom: 9,
+        center: [38.9574, -99.3694],
+        zoom: 6,
         minZoom: 4,
         maxZoom: 9,
     });
@@ -99,7 +99,7 @@
         var dataLayer = L.geoJson(data, options).addTo(map);
 
         //gets the extent of dataLayer and applies as the bounds of the map
-        map.fitBounds(dataLayer.getBounds());
+       // map.fitBounds(dataLayer.getBounds());
 
         //backs the map's zoom out 1 level from the extent that was set with the fitBounds method above
         map.zoomOut(1);
