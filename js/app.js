@@ -7,7 +7,7 @@
     var map = L.mapbox.map('map', 'mapbox.dark', {
         zoomSnap: .1,
         //center: [34.9574, -94.3694],
-        zoom: 6,
+      //  zoom: 6,
         minZoom: 4,
         maxZoom: 9,
     });
