@@ -21,7 +21,7 @@
                 <h3 class='txt-l mb24 align-center mt24 mr24'>New Additions to the Melting Pot:
                     <br/>State Refugee Totals
                     <br/>2008-2016</h3>
-                <img src='images/welcome.jpg' alt="insert image here" class='mb24 mr24'>
+                <img src='images/welcome.jpg' alt="insert image here" class='mb24 mr24' style= "max-height: 95%; max width: 95%; ">
                 <p class="txt-s mb24 mr24">This interactive proportional symbol map shows the total number of refugees each state receives by year. This map was developed in response to the impending travel ban in the United States, which directly bans travel from Syria, Iran, Yemen, Sudan, Libya, and Somalia. Use this map to explore the current refugee controversy and better understand the diversity and value that refugees add to our country. The specific countries that are subject to potential bans are some of the countries in the world with the greatest number of people seeking refuge. By implementing a wholesale block on these countries, we may be simply ignoring folks that need help the most.</p>
                 <div class='txt-m mt18 mb12 mr24'>Interpreting the Map</div>
                 <p class="txt-s mb48 mr24">The states' symbols are proportionally sized based on the total number of refugees they take in each year. Consult the legend as a guide to this symbology. You can mouse over each state to display an information window showing the number of refugees for a given state of interest, including the number of refugees from the six travel ban countries. Use the year slider in the bottom left corner of the map to cycle through the years in the dataset.</p>
@@ -44,21 +44,6 @@
             <!-- ui slider -->
             <div id='slider' class='range--blue w160 bg-white round-ml p12'>
                 <input type='range' min="2008" , max="2016" , value="2016" , step="1" class="slider" />
-            </div>
-
-
-            <div class='select-container ban' id='ban'>
-                <label class="color-gray-dark bg-gray-faint fl txt-bold" id="dir">Choose a travel ban country:</label>
-                <select class='select ml12 ban' name='ban' id='ban'>
-                    <option value='all' selected>All Refugees</option>
-                    <option value='Syria_'>Syria</option>
-                    <option value='Iran_'>Iran</option>
-                    <option value='Yemen_'>Yemen</option>
-                    <option value='Sudan_'>Sudan</option>
-                    <option value='Libya_'>Libya</option>
-                    <option value='Somalia_'>Somalia</option>
-                </select>
-                <div class='select-arrow'></div>
             </div>
 
             <!-- legend -->
