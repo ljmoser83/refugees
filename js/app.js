@@ -8,8 +8,8 @@
         zoomSnap: .1,
         //center: [34.9574, -94.3694],
       //  zoom: 6,
-        minZoom: 4,
-        maxZoom: 9,
+        minZoom: 2,
+        maxZoom: 11,
     });
 
     //AJAX request to retrieve data file from server hosted json file
@@ -102,7 +102,7 @@
        map.fitBounds(dataLayer.getBounds());
 
         //backs the map's zoom out 1 level from the extent that was set with the fitBounds method above
-        map.zoomOut(1);
+        map.zoomOut(0.8);
 
         //creates a var named currentYear to set initial value of year identifier div upon webpage load
         var currentYear = 2016
