@@ -6,8 +6,6 @@
     // create the Leaflet map using mapbox.dark tiles. sets zoom levels to appropriate levels for the extent of dataLayer
     var map = L.mapbox.map('map', 'mapbox.dark', {
         zoomSnap: .1,
-        //center: [34.9574, -94.3694],
-      //  zoom: 6,
         minZoom: 2,
         maxZoom: 11,
     });
@@ -35,11 +33,13 @@
                 opacity: 1,
                 weight: 2,
                 fillOpacity: 0,
+                color: 'blue',
 
             })
         }
     }
 
+    
     // create Leaflet control for the slider
     var sliderControl = L.control({
         position: 'bottomleft'
@@ -101,7 +101,7 @@
         //gets the extent of dataLayer and applies as the bounds of the map
        map.fitBounds(dataLayer.getBounds());
 
-        //backs the map's zoom out 1 level from the extent that was set with the fitBounds method above
+        //backs the map's zoom out 0.8 level from the extent that was set with the fitBounds method above
         map.zoomOut(0.8);
 
         //creates a var named currentYear to set initial value of year identifier div upon webpage load
@@ -120,12 +120,6 @@
             $(".info").hide();
         });
 
-        //sets style of layers when update Map is called and resizes circles based on the total number of refugees by currentYear
-        updateMap(dataLayer, currentYear);
-    }
-    //function that will update data by year and state and update symbology upon user interaction
-    function updateMap(dataLayer, currentYear) {
-
         //calls resizeCircles function
         resizeCircles(dataLayer, currentYear);
 
@@ -135,8 +129,7 @@
         //creates initial content for the info window
         layerInfo(dataLayer, currentYear);
 
-    } //end updateMap function
-
+    } 
 
     //adds an event listener that updates the value of currentYear each time the user interacts with the slider. This function also uses a JQuery method to update the content of the year label div.//
     function sequenceUI(dataLayer) {
@@ -144,28 +137,10 @@
             var currentYear = $(this).val();
             $('#year').html("Year:" + " " + currentYear);
             layerInfo(dataLayer, currentYear);
-            updateMap(dataLayer, currentYear);
+            //calls resizeCircles function
+            resizeCircles(dataLayer, currentYear);
         });
 
-    }
-
-    //drawInfo function taht creates and initially hides info window
-    function drawInfo() {
-
-        var info = L.control({
-            position: 'topright'
-        });
-
-        info.onAdd = function (map) {
-
-            var div = L.DomUtil.create('div', 'info');
-
-            return div;
-
-        }
-
-        info.addTo(map);
-        $(".info").hide();
     }
 
     //function that draws legend based on max value to the dataset
@@ -259,6 +234,26 @@
         legend.addTo(map);
     }
 
+    
+        //drawInfo function taht creates and initially hides info window
+    function drawInfo() {
+
+        var info = L.control({
+            position: 'topright'
+        });
+
+        info.onAdd = function (map) {
+
+            var div = L.DomUtil.create('div', 'info');
+
+            return div;
+
+        }
+
+        info.addTo(map);
+        $(".info").hide();
+    }
+    
     //updates the info in the information window
     function updateInfo(layer, currentYear) {
 
