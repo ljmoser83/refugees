@@ -39,7 +39,7 @@
         }
     }
 
-    
+
     // create Leaflet control for the slider
     var sliderControl = L.control({
         position: 'bottomleft'
@@ -61,6 +61,30 @@
 
     // add the control to the map
     sliderControl.addTo(map);
+
+    // create Leaflet control for the ban country selector
+    var banSelect = L.control({
+        position: 'topleft'
+    });
+
+    // when added to the map
+    banSelect.onAdd = function (map) {
+
+        // select the element with id of 'ban'
+        var control = L.DomUtil.get("ban");
+
+        // disable the mouse events
+        L.DomEvent.disableScrollPropagation(control);
+        L.DomEvent.disableClickPropagation(control);
+
+        // add slider to the control
+        return control;
+
+    }
+
+    // add the control to the map
+    banSelect.addTo(map);
+
 
     // create Leaflet control for the year display
     var yearDisplay = L.control({
@@ -91,7 +115,7 @@
             layer.setRadius(radius);
         });
     }
-
+    var currentYear = 2016;
     //function that dynamically styles the map initially
     function drawMap(data) {
 
@@ -99,13 +123,13 @@
         var dataLayer = L.geoJson(data, options).addTo(map);
 
         //gets the extent of dataLayer and applies as the bounds of the map
-       map.fitBounds(dataLayer.getBounds());
+        map.fitBounds(dataLayer.getBounds());
 
         //backs the map's zoom out 0.8 level from the extent that was set with the fitBounds method above
         map.zoomOut(0.8);
-
+        map.zoomControl.setPosition('topright');
         //creates a var named currentYear to set initial value of year identifier div upon webpage load
-        var currentYear = 2016
+
 
         //JQuery method to update html of the year div
         $('#year').html("Year:" + " " + currentYear);
@@ -129,7 +153,9 @@
         //creates initial content for the info window
         layerInfo(dataLayer, currentYear);
 
-    } 
+        banUI(dataLayer, currentYear);
+
+    }
 
     //adds an event listener that updates the value of currentYear each time the user interacts with the slider. This function also uses a JQuery method to update the content of the year label div.//
     function sequenceUI(dataLayer) {
@@ -139,6 +165,13 @@
             layerInfo(dataLayer, currentYear);
             //calls resizeCircles function
             resizeCircles(dataLayer, currentYear);
+            dataLayer.eachLayer(function (layer) {
+                layer.setStyle({
+                    fillOpacity: '0'
+                });
+            });
+            $('.ban').val('all');
+            banUI(dataLayer, currentYear);
         });
 
     }
@@ -234,8 +267,8 @@
         legend.addTo(map);
     }
 
-    
-        //drawInfo function taht creates and initially hides info window
+
+    //drawInfo function taht creates and initially hides info window
     function drawInfo() {
 
         var info = L.control({
@@ -253,7 +286,7 @@
         info.addTo(map);
         $(".info").hide();
     }
-    
+
     //updates the info in the information window
     function updateInfo(layer, currentYear) {
 
@@ -289,5 +322,26 @@
         });
     }
 
+    function banUI(dataLayer, currentYear) {
+        $('select[name="ban"]').change(function () {
+            var banned = $(this).val();
+            dataLayer.eachLayer(function (layer) {
+                layer.setStyle({
+                    fillOpacity: '0'
+                });
+            });
+            dataLayer.eachLayer(function (layer) {
+                if (layer.feature.properties[banned + currentYear] > 0) {
+                    layer.setStyle({
+                        fillOpacity: '0.75'
+                    });
+                }
+            });
 
+
+
+        });
+
+
+    }
 })();
