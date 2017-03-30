@@ -9,7 +9,7 @@ body {
 /*modifies the text color of anchor elements within the DOM*/
 
 a {
-    color: '#214C8C';
+    color: 'white';
 }
 
 p {
