@@ -292,14 +292,14 @@
 
         var props = layer.feature.properties;
 
-        var html = "<h3>" + props['NAME'] + "</h3>" +
-            "Syrian Refugees " + currentYear + ": <b>" + props["Syria_" + currentYear] + "</b><br>" +
-            "Iranian Refugees " + currentYear + ": <b>" + props["Iran_" + currentYear] + "</b><br>" +
-            "Yemeni Refugees " + currentYear + ": <b>" + props["Yemen_" + currentYear] + "</b><br>" +
-            "Sudanese Refugees " + currentYear + ": <b>" + props["Sudan_" + currentYear] + "</b><br>" +
-            "Libyan Refugees " + currentYear + ": <b>" + props["Libya_" + currentYear] + "</b><br>" +
-            "Somalian Refugees " + currentYear + ": <b>" + props["Somalia_" + currentYear] + "</b><br>" +
-            "Total Refugees " + currentYear + ": <b>" + props["Total_" + currentYear] + "</b>"
+        var html = "<h3>" + props['NAME']+ ' '+ [currentYear] + "</h3>" +
+            "Syrian Refugees: <b>" + props["Syria_" + currentYear] + "</b><br>" +
+            "Iranian Refugees: <b>" + props["Iran_" + currentYear] + "</b><br>" +
+            "Yemeni Refugees: <b>" + props["Yemen_" + currentYear] + "</b><br>" +
+            "Sudanese Refugees: <b>" + props["Sudan_" + currentYear] + "</b><br>" +
+            "Libyan Refugees: <b>" + props["Libya_" + currentYear] + "</b><br>" +
+            "Somalian Refugees: <b>" + props["Somalia_" + currentYear] + "</b><br>" +
+            "Total Refugees: <b>" + props["Total_" + currentYear] + "</b>"
 
         $(".info").html(html);
     }
