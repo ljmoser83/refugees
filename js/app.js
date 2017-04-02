@@ -153,6 +153,7 @@
         //creates initial content for the info window
         layerInfo(dataLayer, currentYear);
 
+        //calls banUI function, which binds an event listener for changes in the ban selector and fires function
         banUI(dataLayer, currentYear);
 
     }
@@ -160,17 +161,23 @@
     //adds an event listener that updates the value of currentYear each time the user interacts with the slider. This function also uses a JQuery method to update the content of the year label div.//
     function sequenceUI(dataLayer) {
         $('.slider').on('input change', function () {
+            //undates currentYear to the value of the slider
             var currentYear = $(this).val();
+            //updates the currentYear to the year display element
             $('#year').html("Year:" + " " + currentYear);
+            //calls layerInfo function
             layerInfo(dataLayer, currentYear);
             //calls resizeCircles function
             resizeCircles(dataLayer, currentYear);
+            //resets the fill opacity of all layers to 0
             dataLayer.eachLayer(function (layer) {
                 layer.setStyle({
                     fillOpacity: '0'
                 });
             });
+            //resets the ban selector back to all
             $('.ban').val('all');
+            //binds the banUI function to the ban selector with the updated currentYear value
             banUI(dataLayer, currentYear);
         });
 
@@ -290,8 +297,10 @@
     //updates the info in the information window
     function updateInfo(layer, currentYear) {
 
+        //shortcut var for accessing layer.feature.properties
         var props = layer.feature.properties;
 
+        //html to be added dynamically to the info window based on updated value of currentYear
         var html = "<h3>" + props['NAME']+ ' '+ [currentYear] + "</h3>" +
             "Syrian Refugees: <b>" + props["Syria_" + currentYear] + "</b><br>" +
             "Iranian Refugees: <b>" + props["Iran_" + currentYear] + "</b><br>" +
@@ -301,6 +310,7 @@
             "Somalian Refugees: <b>" + props["Somalia_" + currentYear] + "</b><br>" +
             "Total Refugees: <b>" + props["Total_" + currentYear] + "</b>"
 
+        //JQuery method to update teh html of the info window
         $(".info").html(html);
     }
 
@@ -310,7 +320,7 @@
             layer.on('mouseover', function (layer) {
                 updateInfo(this, currentYear);
                 this.setStyle({
-                    color: "yellow"
+                    color: "#ff8000"
                 });
             });
         });
@@ -321,7 +331,7 @@
             });
         });
     }
-
+//binds an event listener to the ban selector that resets the fill opacity on change and sets the fill opacity of states with refugees from teh selected ban country to 0.5
     function banUI(dataLayer, currentYear) {
         $('select[name="ban"]').change(function () {
             var banned = $(this).val();
@@ -333,7 +343,7 @@
             dataLayer.eachLayer(function (layer) {
                 if (layer.feature.properties[banned + currentYear] > 0) {
                     layer.setStyle({
-                        fillOpacity: '0.75'
+                        fillOpacity: '0.3'
                     });
                 }
             });
