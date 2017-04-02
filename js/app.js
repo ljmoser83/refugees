@@ -123,10 +123,13 @@
         var dataLayer = L.geoJson(data, options).addTo(map);
 
         //gets the extent of dataLayer and applies as the bounds of the map
-        map.fitBounds(dataLayer.getBounds());
-
+        //map.fitBounds(dataLayer.getBounds());
+        map.fitBounds([
+    [24.880280, -126.984404], //Southwest
+    [48.731455, -63.749716] //Northeast
+]);
         //backs the map's zoom out 0.8 level from the extent that was set with the fitBounds method above
-        map.zoomOut(0.8);
+        //map.zoomOut(0.8);
         map.zoomControl.setPosition('topright');
         //creates a var named currentYear to set initial value of year identifier div upon webpage load
 
@@ -301,7 +304,7 @@
         var props = layer.feature.properties;
 
         //html to be added dynamically to the info window based on updated value of currentYear
-        var html = "<h3>" + props['NAME']+ ' '+ [currentYear] + "</h3>" +
+        var html = "<h3>" + props['NAME'] + ' ' + [currentYear] + "</h3>" +
             "Syrian Refugees: <b>" + props["Syria_" + currentYear] + "</b><br>" +
             "Iranian Refugees: <b>" + props["Iran_" + currentYear] + "</b><br>" +
             "Yemeni Refugees: <b>" + props["Yemen_" + currentYear] + "</b><br>" +
@@ -331,7 +334,7 @@
             });
         });
     }
-//binds an event listener to the ban selector that resets the fill opacity on change and sets the fill opacity of states with refugees from teh selected ban country to 0.5
+    //binds an event listener to the ban selector that resets the fill opacity on change and sets the fill opacity of states with refugees from teh selected ban country to 0.5
     function banUI(dataLayer, currentYear) {
         $('select[name="ban"]').change(function () {
             var banned = $(this).val();
